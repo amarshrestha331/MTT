@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mountain Tea Trade - Premium Himalayan Teas</title>
+    <title>Mountain Tea Trade | Premium Himalayan Teas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="C:\Users\uSer\Downloads\Laravel (1)\MTT\fav.jpg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -65,62 +66,339 @@
                     <p>With over 29 years of experience in the tea industry, we've built strong relationships with local farmers, allowing us to offer you exceptional teas at reasonable prices while supporting sustainable farming practices.</p>
                 </div>
                 <div class="about-image">
-                    <img src="owner.png" alt="Our shop owner Ram">
+                    <img src="C:\Users\uSer\Downloads\Laravel (1)\MTT\owner.png" alt="Our shop owner Ram">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="products section-padding bg-light">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Premium Teas</h2>
-                <div class="divider"></div>
-                <p>Discover our selection of high-quality teas from the Himalayan highlands</p>
-            </div>
-            <div class="products-grid">
-                <!-- Tea Product 1 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="Tea.png" alt="Ilam Black Tea">
-                    </div>
-                    <div class="product-details">
-                        <h3>Ilam Black Tea</h3>
-                        <p>Grown at 1300m altitude in the Ilam region of Nepal, this premium black tea offers a complex flavor profile with floral notes and a smooth finish. Similar to Darjeeling but with its own unique character.</p>
-                        <!--<button class="btn primary-btn full-width">View Details</button>-->
-                    </div>
-                </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById("productsGrid");
+    const cardWidth = 320; // width + gap
+    let scrollAmount = cardWidth;
+    let isJumping = false;
 
-                <!-- Tea Product 2 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="Tea.png" alt="Himalayan Green Tea">
-                    </div>
-                    <div class="product-details">
-                        <h3>Himalayan Green Tea</h3>
-                        <p>Our emerald green tea from the high mountains of Nepal is rich in antioxidants with a fresh, grassy flavor and subtle sweet notes. Perfect for daily drinking and health benefits.</p>
-                        <!--<button class="btn primary-btn full-width">View Details</button>-->
-                    </div>
-                </div>
+    // Clone last few cards to the beginning, and first few to the end
+    const cards = Array.from(container.querySelectorAll('.product-card'));
+    const numClones = 3;
 
-                <!-- Tea Product 3 -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="Tea.png" alt="Specialty Herbal Teas">
-                    </div>
-                    <div class="product-details">
-                        <h3>Specialty Herbal Teas</h3>
-                        <p>Explore our collection of herbal infusions including Chamomile, Tulsi, and Rosemary. Sourced from small farms in Nepal, these caffeine-free options offer unique flavors and wellness benefits.</p>
-                        <!--<button class="btn primary-btn full-width">View Details</button>-->
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-2">
-                <a href="#" class="btn outline-btn">View All Products (Beta)</a>
-            </div>
-        </div>
-    </section>
+    for (let i = cards.length - numClones; i < cards.length; i++) {
+      const clone = cards[i].cloneNode(true);
+      clone.classList.add('clone');
+      container.insertBefore(clone, container.firstChild);
+    }
+
+    for (let i = 0; i < numClones; i++) {
+      const clone = cards[i].cloneNode(true);
+      clone.classList.add('clone');
+      container.appendChild(clone);
+    }
+
+    // Wait for DOM to fully render with clones, then jump to the real start
+    setTimeout(() => {
+      container.scrollLeft = cardWidth * numClones;
+    }, 100);
+
+    window.scrollProducts = function(direction) {
+      if (isJumping) return;
+
+      const step = direction === 'left' ? -scrollAmount : scrollAmount;
+      container.scrollBy({ left: step, behavior: 'smooth' });
+
+      setTimeout(() => {
+        // After scroll, check position
+        const totalCards = container.querySelectorAll('.product-card').length;
+        const totalWidth = cardWidth * totalCards;
+        const maxScrollLeft = totalWidth - cardWidth * numClones;
+
+        if (direction === 'right' && container.scrollLeft >= maxScrollLeft - cardWidth) {
+          isJumping = true;
+          container.scrollLeft = cardWidth * numClones;
+          setTimeout(() => { isJumping = false; }, 100);
+        }
+
+        if (direction === 'left' && container.scrollLeft <= 0) {
+          isJumping = true;
+          container.scrollLeft = totalWidth - cardWidth * (numClones * 2);
+          setTimeout(() => { isJumping = false; }, 100);
+        }
+      }, 400);
+    };
+  });
+</script>
+
+
+
+<!-- Products Section -->
+<section id="products" class="products section-padding bg-light">
+  <div class="container">
+    <div class="section-header">
+      <h2>Our Premium Teas</h2>
+      <div class="divider"></div>
+      <p>Discover our selection of high-quality teas from the Himalayan highlands</p>
+    </div>
+
+    <!-- NEW: Scrollable Product Wrapper -->
+    <div class="products-container">
+      <!-- Scroll Left Button -->
+      <button class="scroll-btn left" onclick="scrollProducts('left')">&#10094;</button>
+
+      <!-- Scrollable Grid -->
+<div class="products-grid" id="productsGrid">
+
+
+<!-- Tea Product 1 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Golden Tea">
+    </div>
+    <div class="product-details">
+        <h3>Golden Tea</h3>
+        <p>A luxurious blend made from golden-tipped tea leaves, known for its smooth, malty flavor and subtle sweetness. A rich amber infusion with a creamy mouthfeel.</p>
+    </div>
+</div>
+
+<!-- Tea Product 2 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Silver Tea">
+    </div>
+    <div class="product-details">
+        <h3>Silver Tea</h3>
+        <p>Delicate and refined, crafted from the youngest tea buds. It brews a pale liquor with a light floral aroma and silky texture.</p>
+    </div>
+</div>
+
+<!-- Tea Product 3 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Silver Needle Tea">
+    </div>
+    <div class="product-details">
+        <h3>Silver Needle Tea</h3>
+        <p>Made from tender spring buds, this prized white tea offers a subtle, sweet brew with notes of melon and honeysuckle.</p>
+    </div>
+</div>
+
+<!-- Tea Product 4 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Golden Needle Tea">
+    </div>
+    <div class="product-details">
+        <h3>Golden Needle Tea</h3>
+        <p>A rare black tea with golden-tipped leaves, delivering bold cocoa and honey notes in a smooth, full-bodied cup.</p>
+    </div>
+</div>
+
+<!-- Tea Product 5 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Jasmine Tea">
+    </div>
+    <div class="product-details">
+        <h3>Jasmine Tea</h3>
+        <p>A green tea infused with jasmine blossoms, offering a naturally sweet and fragrant brew with calming effects.</p>
+    </div>
+</div>
+
+<!-- Tea Product 6 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Jasmine Flower Tea">
+    </div>
+    <div class="product-details">
+        <h3>Jasmine Flower Tea</h3>
+        <p>Caffeine-free infusion of whole jasmine flowers, light and delicately sweet with a soothing floral fragrance.</p>
+    </div>
+</div>
+
+<!-- Tea Product 7 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Chamomile Tea">
+    </div>
+    <div class="product-details">
+        <h3>Chamomile Tea</h3>
+        <p>Golden infusion with apple-like notes made from dried chamomile flowers. Known for its calming and sleep-aiding properties.</p>
+    </div>
+</div>
+
+<!-- Tea Product 8 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Tulsi Tea">
+    </div>
+    <div class="product-details">
+        <h3>Tulsi Tea</h3>
+        <p>Holy basil tea with peppery sweetness and Ayurvedic roots, known to reduce stress and boost immunity.</p>
+    </div>
+</div>
+
+<!-- Tea Product 9 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Herbal Tea">
+    </div>
+    <div class="product-details">
+        <h3>Herbal Tea</h3>
+        <p>A variety of caffeine-free infusions made from herbs, flowers, and fruits, known for wellness and relaxation benefits.</p>
+    </div>
+</div>
+
+<!-- Tea Product 10 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Mint Tea">
+    </div>
+    <div class="product-details">
+        <h3>Mint Tea</h3>
+        <p>Cool and refreshing, made from peppermint or spearmint leaves. Great for digestion and calming the senses.</p>
+    </div>
+</div>
+
+<!-- Tea Product 11 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Ginger Tea">
+    </div>
+    <div class="product-details">
+        <h3>Ginger Tea</h3>
+        <p>A spicy, warming herbal infusion made from ginger root. Traditionally used for nausea, digestion, and immunity support.</p>
+    </div>
+</div>
+
+<!-- Tea Product 12 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Masala Tea">
+    </div>
+    <div class="product-details">
+        <h3>Masala Tea</h3>
+        <p>Robust black tea blended with warming spices like cardamom and cinnamon, offering a bold, aromatic, and comforting experience.</p>
+    </div>
+</div>
+
+<!-- Tea Product 13 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Nepali Tea">
+    </div>
+    <div class="product-details">
+        <h3>Nepali Tea</h3>
+        <p>High-altitude tea from Nepal with floral aromas and muscatel character, similar to Darjeeling but distinctly brisk.</p>
+    </div>
+</div>
+
+<!-- Tea Product 14 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Spices Tea">
+    </div>
+    <div class="product-details">
+        <h3>Spices Tea</h3>
+        <p>Aromatic and flavorful tea infused with warming spices like cloves, cinnamon, and cardamom for a rich sensory experience.</p>
+    </div>
+</div>
+
+<!-- Tea Product 15 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Ruby Tea">
+    </div>
+    <div class="product-details">
+        <h3>Ruby Tea</h3>
+        <p>Deep red in color with a fruity and slightly tangy profile. A bold and antioxidant-rich tea made from wild or cultivated plants.</p>
+    </div>
+</div>
+
+<!-- Tea Product 16 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Ilam Tea">
+    </div>
+    <div class="product-details">
+        <h3>Ilam Tea</h3>
+        <p>Grown in Nepal’s Ilam hills, this tea offers floral, fruity, and muscatel notes with a clean, high-altitude finish.</p>
+    </div>
+</div>
+
+<!-- Tea Product 17 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Ilam Special Tea">
+    </div>
+    <div class="product-details">
+        <h3>Ilam Special Tea</h3>
+        <p>Premium blend from Ilam, Nepal, grown above 1300m with floral and stone fruit notes and a lingering smoothness.</p>
+    </div>
+</div>
+
+<!-- Tea Product 18 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Hibiscus Tea">
+    </div>
+    <div class="product-details">
+        <h3>Hibiscus Tea</h3>
+        <p>A tart, vitamin C-rich herbal tea with cranberry-like flavor and a deep ruby-red color. Perfect hot or iced.</p>
+    </div>
+</div>
+
+<!-- Tea Product 19 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Butterfly Tea">
+    </div>
+    <div class="product-details">
+        <h3>Butterfly Tea</h3>
+        <p>A blue herbal tea made from butterfly pea flowers. Earthy in flavor and changes color with lemon. Rich in antioxidants.</p>
+    </div>
+</div>
+
+<!-- Tea Product 20 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Rosemary Tea">
+    </div>
+    <div class="product-details">
+        <h3>Rosemary Tea</h3>
+        <p>Made from rosemary leaves, this herbal tea has a piney, savory flavor and is valued for its memory-enhancing benefits.</p>
+    </div>
+</div>
+
+<!-- Tea Product 21 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Rhododendron Tea">
+    </div>
+    <div class="product-details">
+        <h3>Rhododendron Tea</h3>
+        <p>Himalayan floral tea with astringent-sweet taste, crafted from rhododendron petals. Known for detox and immunity benefits.</p>
+    </div>
+</div>
+
+<!-- Tea Product 22 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tea.png" alt="Lemon Tea">
+    </div>
+    <div class="product-details">
+        <h3>Lemon Tea</h3>
+        <p>Zesty black or green tea blended with lemon juice or peel. Refreshing and packed with immune-boosting vitamin C.</p>
+    </div>
+</div>
+
+      <!-- Scroll Right Button -->
+      <button class="scroll-btn right" onclick="scrollProducts('right')">&#10095;</button>
+    </div>
+
+    <!--<div class="text-center mt-2">
+      <a href="#" class="btn outline-btn">View All Products (Beta)</a>
+    </div>-->
+  </div>
+</section>
 
     <!-- Tea Experience Section -->
     <section class="experience section-padding">
@@ -131,7 +409,7 @@
             </div>
             <div class="experience-content">
                 <div class="experience-image">
-                    <img src="Pouring.png" alt="Tea tasting experience">
+                    <img src="C:\Users\uSer\Downloads\Laravel (1)\MTT\Pouring.png" alt="Tea tasting experience">
                 </div>
                 <div class="experience-text">
                     <!--<h3>Visit Our Shop</h3>-->
@@ -204,7 +482,7 @@
             </div>
             <div class="shop-info-content">
                 <div class="shop-image">
-                    <img src="shop.png" alt="Mountain Tea Trade shop exterior">
+                    <img src="C:\Users\uSer\Downloads\Laravel (1)\MTT\shop.png" alt="Mountain Tea Trade shop exterior">
                 </div>
                 <div class="shop-details">
                 <!--<h3>Shop Information</h3>-->
@@ -261,12 +539,6 @@
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <!--<h3>Newsletter</h3>
-                    <p>Subscribe to receive updates on new tea arrivals and special offers.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email">
-                        <button type="submit" class="btn primary-btn">Subscribe</button>
-                    </form>-->
                 </div>
             </div>
             <div class="footer-bottom">
