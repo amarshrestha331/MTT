@@ -25,6 +25,10 @@ html {
     scroll-behavior: smooth;
 }
 
+.hidden-product {
+    display: none;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
@@ -216,7 +220,7 @@ ul {
     position: relative;
     height: 100vh;
     background-image: url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1.jpg-qA9RjGVM1p2eld6NQCDKMs6xKbdYxf.jpeg');
-    background-image: url('Ilam.png');
+    background-image: url('C:/Users/uSer/Downloads/Laravel (1)/MTT/Ilam.png');
     opacity: 80%;
     background-size: cover;
     background-position: center;
@@ -285,17 +289,32 @@ ul {
 
 /* Products Section */
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: nowrap;
     gap: 2rem;
+    overflow-x: auto;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
+/* Hide scrollbar (WebKit browsers) */
+.products-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* Product Card */
 .product-card {
+    flex: 0 0 auto;
+    width: 300px;
     background-color: var(--white);
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    scroll-snap-align: start;
+    height: 480px;
 }
 
 .product-card:hover {
@@ -303,6 +322,7 @@ ul {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Product Image */
 .product-image {
     height: 250px;
     overflow: hidden;
@@ -319,6 +339,7 @@ ul {
     transform: scale(1.05);
 }
 
+/* Product Details */
 .product-details {
     padding: 1.5rem;
 }
@@ -331,6 +352,48 @@ ul {
 .product-details p {
     color: var(--text-light);
     margin-bottom: 1.5rem;
+}
+
+.products-container {
+    position: relative;
+}
+
+/* Scroll Buttons */
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        margin: 0 -25px;  /* Adjust spacing between buttons and cards */
+
+    transition: background 0.3s;
+}
+
+.scroll-btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.scroll-btn.left {
+    left: -20px; /* Adjust based on your layout */
+}
+
+.scroll-btn.right {
+    right: -20px; /* Adjust based on your layout */
+}
+
+/* Responsive - hide buttons on small screens */
+@media (max-width: 600px) {
+    .scroll-btn {
+        display: none;
+    }
 }
 
 /* Experience Section */
